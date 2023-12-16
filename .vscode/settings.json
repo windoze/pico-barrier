@@ -1,0 +1,22 @@
+{
+  "editor.formatOnSave": true,
+  "[toml]": {
+    "editor.formatOnSave": false
+  },
+  "[markdown]": {
+    "editor.formatOnSave": false
+  },
+  "rust-analyzer.check.allTargets": false,
+  "rust-analyzer.check.noDefaultFeatures": true,
+  "rust-analyzer.cargo.noDefaultFeatures": true,
+  "rust-analyzer.showUnlinkedFileNotification": false,
+  "cSpell.words": [
+    "defmt",
+    "dhcpv",
+    "firmwares",
+    "Irqs",
+    "msos",
+    "USBCTRL",
+    "Vbus"
+  ],
+}
