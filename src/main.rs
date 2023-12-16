@@ -149,14 +149,14 @@ async fn main(spawner: Spawner) {
         poll_ms: 5,
         max_packet_size: 64,
     };
-    let mouse = HidReaderWriter::<_, 1, 8>::new(&mut builder, &mut mouse_state, config);
+    let mouse = HidReaderWriter::<_, 1, 7>::new(&mut builder, &mut mouse_state, config);
     let config = embassy_usb::class::hid::Config {
         report_descriptor: SynergyHid::get_report_descriptor(synergy_hid::ReportType::Consumer).1,
         request_handler: Some(&request_handler),
         poll_ms: 10,
         max_packet_size: 64,
     };
-    let consumer = HidReaderWriter::<_, 1, 8>::new(&mut builder, &mut consumer_state, config);
+    let consumer = HidReaderWriter::<_, 1, 2>::new(&mut builder, &mut consumer_state, config);
 
     // Build the builder.
     let mut usb = builder.build();

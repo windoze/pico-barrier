@@ -16,8 +16,8 @@ pub struct UsbActuator<'a, 'b, 'c, 'd> {
     hid: SynergyHid,
     sender: Sender<'a, NoopRawMutex, IndicatorStatus, 4>,
     keyboard_writer: HidWriter<'b, embassy_rp::usb::Driver<'b, embassy_rp::peripherals::USB>, 8>,
-    mouse_writer: HidWriter<'c, embassy_rp::usb::Driver<'c, embassy_rp::peripherals::USB>, 8>,
-    consumer_writer: HidWriter<'d, embassy_rp::usb::Driver<'d, embassy_rp::peripherals::USB>, 8>,
+    mouse_writer: HidWriter<'c, embassy_rp::usb::Driver<'c, embassy_rp::peripherals::USB>, 7>,
+    consumer_writer: HidWriter<'d, embassy_rp::usb::Driver<'d, embassy_rp::peripherals::USB>, 2>,
 }
 
 impl<'a, 'b, 'c, 'd> UsbActuator<'a, 'b, 'c, 'd> {
@@ -31,11 +31,11 @@ impl<'a, 'b, 'c, 'd> UsbActuator<'a, 'b, 'c, 'd> {
             embassy_rp::usb::Driver<'b, embassy_rp::peripherals::USB>,
             8,
         >,
-        mouse_writer: HidWriter<'c, embassy_rp::usb::Driver<'c, embassy_rp::peripherals::USB>, 8>,
+        mouse_writer: HidWriter<'c, embassy_rp::usb::Driver<'c, embassy_rp::peripherals::USB>, 7>,
         consumer_writer: HidWriter<
             'd,
             embassy_rp::usb::Driver<'d, embassy_rp::peripherals::USB>,
-            8,
+            2,
         >,
     ) -> Self {
         Self {
