@@ -38,6 +38,23 @@ pub async fn indicator_task(
     let mut led_on = true;
     loop {
         let (on, off) = get_duty_cycle(current_status);
+        match current_status {
+            IndicatorStatus::EnterScreen => {
+                control
+                    .lock()
+                    .await
+                    .set_power_management(cyw43::PowerManagementMode::None)
+                    .await;
+            }
+            IndicatorStatus::LeaveScreen => {
+                control
+                    .lock()
+                    .await
+                    .set_power_management(cyw43::PowerManagementMode::PowerSave)
+                    .await;
+            }
+            _ => {}
+        }
         let next_period = Duration::from_millis(if led_on { on } else { off });
         if next_period == Duration::from_millis(0) {
             led_on = !led_on;

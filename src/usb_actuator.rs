@@ -78,14 +78,12 @@ impl<'a, 'b, 'c, 'd> UsbActuator<'a, 'b, 'c, 'd> {
 impl<'a, 'b, 'c, 'd> Actuator for UsbActuator<'a, 'b, 'c, 'd> {
     async fn connected(&mut self) {
         info!("Connected to Barrier");
-        self.sender.try_send(IndicatorStatus::ServerConnected).ok();
+        self.sender.send(IndicatorStatus::ServerConnected).await;
     }
 
     async fn disconnected(&mut self) {
         info!("Disconnected from Barrier");
-        self.sender
-            .try_send(IndicatorStatus::ServerDisconnected)
-            .ok();
+        self.sender.send(IndicatorStatus::ServerDisconnected).await;
     }
 
     async fn get_screen_size(&self) -> (u16, u16) {
@@ -149,7 +147,7 @@ impl<'a, 'b, 'c, 'd> Actuator for UsbActuator<'a, 'b, 'c, 'd> {
 
     async fn enter(&mut self) {
         info!("Entering");
-        self.sender.try_send(IndicatorStatus::EnterScreen).ok();
+        self.sender.send(IndicatorStatus::EnterScreen).await;
     }
 
     async fn leave(&mut self) {
@@ -161,6 +159,6 @@ impl<'a, 'b, 'c, 'd> Actuator for UsbActuator<'a, 'b, 'c, 'd> {
         self.send_report(ret).await;
         let ret = self.hid.clear(ReportType::Consumer, &mut report);
         self.send_report(ret).await;
-        self.sender.try_send(IndicatorStatus::LeaveScreen).ok();
+        self.sender.send(IndicatorStatus::LeaveScreen).await;
     }
 }
