@@ -206,6 +206,8 @@ async fn main(spawner: Spawner) {
         control
     )));
 
+    sender.send(IndicatorStatus::WifiConnecting).await;
+
     control
         .lock()
         .await
@@ -258,6 +260,8 @@ async fn main(spawner: Spawner) {
     }
     info!("DHCP is now up!");
 
+    sender.send(IndicatorStatus::WifiConnected).await;
+
     // DHCP could be slow in some cases, so we feed the watchdog
     watchdog.feed();
 
@@ -293,6 +297,7 @@ async fn main(spawner: Spawner) {
             consumer_writer,
         );
         loop {
+            sender.send(IndicatorStatus::ServerConnecting).await;
             let mut socket = TcpSocket::new(stack, &mut rx_buffer, &mut tx_buffer);
             socket.set_timeout(Some(Duration::from_secs(10)));
 
@@ -304,6 +309,7 @@ async fn main(spawner: Spawner) {
                 continue;
             }
             info!("Connected!");
+            sender.send(IndicatorStatus::ServerConnected).await;
             barrier::start(socket, SCREEN_NAME, &mut actuator, &mut watchdog)
                 .await
                 .ok();

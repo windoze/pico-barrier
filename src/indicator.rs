@@ -19,7 +19,7 @@ pub enum IndicatorStatus {
 fn get_duty_cycle(status: IndicatorStatus) -> (u64, u64) {
     match status {
         IndicatorStatus::PowerOn => (50, 50),
-        IndicatorStatus::WifiConnecting => (100, 100),
+        IndicatorStatus::WifiConnecting => (50, 50),
         IndicatorStatus::WifiConnected => (100, 100),
         IndicatorStatus::ServerConnecting => (100, 100),
         IndicatorStatus::ServerConnected => (500, 500),
