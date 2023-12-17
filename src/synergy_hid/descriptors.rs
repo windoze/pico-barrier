@@ -73,7 +73,7 @@ pub const BOOT_KEYBOARD_REPORT_DESCRIPTOR: &[u8] = &[
     0x95, 0x01,        //     Report Count (1),
     0x75, 0x03,        //     Report Size (3),
     0x91, 0x01,        //     Output (Constant), ;LED report padding
-    
+
     0x95, 0x06,        //     Report Count (6),
     0x75, 0x08,        //     Report Size (8),
     0x15, 0x00,        //     Logical Minimum (0),
@@ -87,15 +87,15 @@ pub const BOOT_KEYBOARD_REPORT_DESCRIPTOR: &[u8] = &[
 
 #[rustfmt::skip]
 pub const CONSUMER_CONTROL_REPORT_DESCRIPTOR: &[u8] = &[
-    0x05, 0x0C, // Usage Page (Consumer),
-    0x09, 0x01, // Usage (Consumer Control),
-    0xA1, 0x01, // Collection (Application),
-    0x75, 0x10, //     Report Size(16)
-    0x95, 0x01, //     Report Count(1)
-    0x15, 0x00, //     Logical Minimum(0)
-    0x26, 0xA0, 0x02, //     Logical Maximum(0x02A0)
-    0x19, 0x00, //     Usage Minimum(0)
-    0x2A, 0xA0, 0x02, //     Usage Maximum(0x02A0)
-    0x81, 0x00, //     Input (Array, Data, Variable)
-    0xC0, // End Collection
+    0x05, 0x0C,        // Usage Page (Consumer),
+    0x09, 0x01,        // Usage (Consumer Control),
+    0xA1, 0x01,        // Collection (Application),
+    0x75, 0x10,        //     Report Size(16)
+    0x95, 0x01,        //     Report Count(1)
+    0x15, 0x00,        //     Logical Minimum(0)
+    0x26, 0xA0, 0x02,  //     Logical Maximum(0x02A0)
+    0x19, 0x00,        //     Usage Minimum(0)
+    0x2A, 0xA0, 0x02,  //     Usage Maximum(0x02A0)
+    0x81, 0x00,        //     Input (Array, Data, Variable)
+    0xC0,              // End Collection
 ];
