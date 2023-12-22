@@ -1,6 +1,9 @@
-use cyw43::Control;
 use defmt::info;
-use embassy_sync::{blocking_mutex::raw::NoopRawMutex, channel::Receiver, mutex::Mutex};
+use embassy_rp::{
+    gpio::{AnyPin, Level, Output},
+    peripherals::PIN_16,
+};
+use embassy_sync::{blocking_mutex::raw::NoopRawMutex, channel::Receiver};
 use embassy_time::{with_timeout, Duration};
 
 #[allow(dead_code)]
@@ -32,26 +35,19 @@ fn get_duty_cycle(status: IndicatorStatus) -> (u64, u64) {
 #[embassy_executor::task]
 pub async fn indicator_task(
     receiver: Receiver<'static, NoopRawMutex, IndicatorStatus, 4>,
-    control: &'static Mutex<NoopRawMutex, Control<'static>>,
+    led: AnyPin,
 ) {
+    let mut led = Output::new(led, Level::Low);
     let mut current_status = IndicatorStatus::PowerOn;
     let mut led_on = true;
     loop {
         let (on, off) = get_duty_cycle(current_status);
         match current_status {
             IndicatorStatus::EnterScreen => {
-                control
-                    .lock()
-                    .await
-                    .set_power_management(cyw43::PowerManagementMode::None)
-                    .await;
+                info!("Enable power saving");
             }
             IndicatorStatus::LeaveScreen => {
-                control
-                    .lock()
-                    .await
-                    .set_power_management(cyw43::PowerManagementMode::PowerSave)
-                    .await;
+                info!("Disable power saving");
             }
             _ => {}
         }
@@ -62,9 +58,11 @@ pub async fn indicator_task(
         }
 
         if led_on {
-            control.lock().await.gpio_set(0, true).await;
+            //info!("LED on");
+            led.set_low();
         } else {
-            control.lock().await.gpio_set(0, false).await;
+            //info!("LED off");
+            led.set_high();
         }
         match with_timeout(next_period, receiver.receive()).await {
             Ok(status) => {

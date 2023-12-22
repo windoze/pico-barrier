@@ -1,10 +1,12 @@
 [target.'cfg(all(target_arch = "arm", target_os = "none"))']
-runner = "probe-rs run --chip RP2040"
-# runner = "elf2uf2-rs -d"
+# runner = "probe-rs run --chip RP2040"
+runner = "elf2uf2-rs -d"
 
 [build]
 target = "thumbv6m-none-eabi"        # Cortex-M0 and Cortex-M0+
 
 [env]
+EMBASSY_USB_MAX_INTERFACE_COUNT = "5"
+MAX_INTERFACE_COUNT = "5"
 DEFMT_LOG = "debug,cyw43=error,embassy_usb=info,smoltcp=info"
 # DEFMT_LOG = "off"
